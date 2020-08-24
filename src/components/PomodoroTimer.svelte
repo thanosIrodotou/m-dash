@@ -242,8 +242,6 @@
   }
 
   function cancelPomodoro() {
-    // TODO: Add some logic to prompt the user to write down
-    // the cause of the interruption.
     idle();
   }
 
@@ -282,7 +280,7 @@
         </button>
     </time>
 </section>
-{#if (pomodoroTime < 1500 && currentState !== State.resting)}
+{#if (pomodoroTime <= 1500 && currentState !== State.resting)}
     <div class="inProgress">
         <progress id="pomodoroProgress" class="fade-in" max="100"
                   value={100 - (pomodoroTime / 1500) * 100}></progress>
