@@ -3,8 +3,6 @@
 </head>
 
 <style>
-
-
     button {
         background-color: var(--base);
         border-color: var(--black);
@@ -71,6 +69,90 @@
     section {
         text-align: center;
     }
+
+    .inProgress progress[value]::-moz-progress-bar {
+        background-image: -moz-linear-gradient(
+                180deg,
+                transparent 100%,
+                rgba(0, 0, 0, 0) 33%,
+                rgba(0, 0, 0, 0) 66%,
+                transparent 66%
+        ),
+        -moz-linear-gradient(
+                top,
+                rgba(255, 255, 255, 0),
+                rgba(0, 0, 0, 0)
+        ),
+        -moz-linear-gradient(
+                left,
+                #09c,
+                #f44
+        );
+
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0);
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+    }
+
+    .inRest progress[value]::-moz-progress-bar {
+        background-image: -moz-linear-gradient(
+                180deg,
+                transparent 100%,
+                rgba(0, 0, 0, 0) 33%,
+                rgba(0, 0, 0, 0) 66%,
+                transparent 66%
+        ),
+        -moz-linear-gradient(
+                top,
+                rgba(255, 255, 255, 0),
+                rgba(0, 0, 0, 0)
+        ),
+        -moz-linear-gradient(
+                left,
+                #09c,
+                #44ff9e
+        );
+
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0);
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+    }
+
+    .fade-in {
+        width: 100%;
+        animation: fadeIn ease 1s;
+        -webkit-animation: fadeIn ease 1s;
+        -moz-animation: fadeIn ease 1s;
+        -o-animation: fadeIn ease 1s;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @-moz-keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
 </style>
 <script>
   import {onMount} from 'svelte';
@@ -105,6 +187,7 @@
   let restTime = SHORT_BREAK_S;
   let completedPomodoros = 0;
   let interval;
+  let progress = 1500;
 
   function formatTime(timeInSeconds) {
     const minutes = secondsToMinutes(timeInSeconds);
@@ -115,9 +198,12 @@
   function startPomodoro() {
     currentState = State.inProgress;
     interval = setInterval(() => {
+      progress = 100 - (pomodoroTime / 1500) * 100;
+      document.getElementById('pomodoroProgress').value = progress;
       if (pomodoroTime === 0) {
         completePomodoro();
       }
+      progress -= 1;
       pomodoroTime -= 1;
     }, 1000);
   }
@@ -138,6 +224,9 @@
     currentState = State.resting;
     pomodoroTime = time;
     interval = setInterval(() => {
+      progress = (pomodoroTime / 300) * 100;
+      document.getElementById('restProgress').value = progress;
+      console.log('resting', progress);
       if (pomodoroTime === 0) {
         idle();
         restDoneSound.play('start');
@@ -175,7 +264,6 @@
       pomodoroTime = $count;
     }
   });
-
 </script>
 
 <svelte:window on:beforeunload={count.set(pomodoroTime || 1500)}/>
@@ -194,3 +282,15 @@
         </button>
     </time>
 </section>
+{#if (pomodoroTime < 1500 && currentState !== State.resting)}
+    <div class="inProgress">
+        <progress id="pomodoroProgress" class="fade-in" max="100"
+                  value={100 - (pomodoroTime / 1500) * 100}></progress>
+    </div>
+{/if}
+{#if currentState === State.resting}
+<div class="inRest">
+    <progress id="restProgress" class="fade-in" max="100"
+              value={(pomodoroTime / 300) * 100}></progress>
+</div>
+{/if}
