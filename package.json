@@ -14,8 +14,7 @@
   "dependencies": {
     "compression": "^1.7.1",
     "polka": "next",
-    "sirv": "^1.0.0",
-    "svelte-simple-modal": "^0.6.0"
+    "sirv": "^1.0.0"
   },
   "devDependencies": {
     "lodash.map": "^4.6.0",
@@ -26,6 +25,7 @@
     "webpack": "^4.7.0",
     "webpack-modules": "^1.0.0",
     "svelte-grid": "^1.11.2",
-    "howler": "^2.2.0"
+    "howler": "^2.2.0",
+    "svelte-simple-modal": "^0.6.0"
   }
 }
