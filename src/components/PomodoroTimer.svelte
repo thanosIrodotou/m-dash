@@ -70,6 +70,33 @@
         text-align: center;
     }
 
+    .inProgress progress[value]::-webkit-progress-bar {
+        background-image: -webkit-linear-gradient(
+                180deg,
+                transparent 100%,
+                rgba(0, 0, 0, 0) 33%,
+                rgba(0, 0, 0, 0) 66%,
+                transparent 66%
+        ),
+        -webkit-linear-gradient(
+                top,
+                rgba(255, 255, 255, 0),
+                rgba(0, 0, 0, 0)
+        ),
+        -webkit-linear-gradient(
+                left,
+                #09c,
+                #f44
+        );
+
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0);
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 15px;
+    }
+
     .inProgress progress[value]::-moz-progress-bar {
         background-image: -moz-linear-gradient(
                 180deg,
@@ -87,6 +114,35 @@
                 left,
                 #09c,
                 #f44
+        );
+
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0);
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+    }
+
+    .inRest progress[value]::-webkit-progress-bar {
+        background-image: -webkit-linear-gradient(
+                180deg,
+                transparent 100%,
+                rgba(0, 0, 0, 0) 33%,
+                rgba(0, 0, 0, 0) 66%,
+                transparent 66%
+        ),
+        -webkit-linear-gradient(
+                top,
+                rgba(255, 255, 255, 0),
+                rgba(0, 0, 0, 0)
+        ),
+        -webkit-linear-gradient(
+                left,
+                #09c,
+                #44ff9e
         );
 
         border-radius: 2px;
@@ -157,7 +213,7 @@
 <script>
   import {onMount} from 'svelte';
   import {Howl} from 'howler';
-  import {count} from "../store";
+  import {count} from '../store';
 
   const minutesToSeconds = (minutes) => minutes * 60;
   const secondsToMinutes = (seconds) => Math.floor(seconds / 60);
@@ -256,6 +312,15 @@
     clearInterval(interval)
   }
 
+  function handleKeyPress(event) {
+    let keyIsSpace = event.keyCode === 32;
+    if (keyIsSpace && currentState === State.inProgress) {
+      pausePomodoro();
+    } else if (keyIsSpace && (currentState === State.paused || currentState === State.idle)) {
+      startPomodoro();
+    }
+  }
+
   onMount(() => {
     count.useLocalStorage();
     if (count) {
@@ -264,7 +329,8 @@
   });
 </script>
 
-<svelte:window on:beforeunload={count.set(pomodoroTime || 1500)}/>
+<svelte:window on:beforeunload={count.set(pomodoroTime || 1500)} on:keydown={handleKeyPress}/>
+{currentState}
 <section>
     <time>
         {formatTime(pomodoroTime)} - break {formatTime(restTime)} - cycle {completedPomodoros}
