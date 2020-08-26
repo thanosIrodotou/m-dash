@@ -14,7 +14,8 @@
   "dependencies": {
     "compression": "^1.7.1",
     "polka": "next",
-    "sirv": "^1.0.0"
+    "sirv": "^1.0.0",
+    "svelte-simple-modal": "^0.6.0"
   },
   "devDependencies": {
     "lodash.map": "^4.6.0",

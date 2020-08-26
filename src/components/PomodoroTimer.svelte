@@ -330,7 +330,6 @@
 </script>
 
 <svelte:window on:beforeunload={count.set(pomodoroTime || 1500)} on:keydown={handleKeyPress}/>
-{currentState}
 <section>
     <time>
         {formatTime(pomodoroTime)} - break {formatTime(restTime)} - cycle {completedPomodoros}
