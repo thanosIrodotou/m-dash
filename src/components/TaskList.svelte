@@ -74,6 +74,46 @@
     section {
         text-align: center;
     }
+
+    .input {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80%;
+        border: 0;
+        font-family: inherit;
+        padding: 16px 12px 0 12px;
+        height: 56px;
+        background: rgba(0, 0, 0, .2);
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .3);
+        color: #000;
+        transition: all .15s ease;
+    }
+
+    .input:hover {
+        background: rgba(0, 0, 0, .04);
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .5);
+    }
+
+    .input:not(:placeholder-shown) + label {
+        color: rgba(0, 0, 0, .5);
+        transform: translate3d(0,-12px,0) scale(.75);
+    }
+
+    .input:focus {
+        background: rgba(0, 0, 0, .05);
+        outline: none;
+        box-shadow: inset 0 -2px 0  var(--accent-dark)
+    }
+
+    .inp {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        max-width: 280px;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
 </style>
 
 <script>
@@ -135,8 +175,9 @@
             <ul style="line-height: 2em">
                 {#each tasks as task}
                     <li>
-                        <input class="description" type="text" bind:value={task.description}
-                               bind:this={lastInput}>
+                            <input class="description input" type="text"
+                                   bind:value={task.description}
+                                   bind:this={lastInput}>
                         <input class="pomodoros" type="number" bind:value={task.expectedPomodoros}>
                         <button on:click={() => removeTask(task)}>X</button>
                         <button id="saveTask" class="submitTask" on:click={() => saveTask(task)}
