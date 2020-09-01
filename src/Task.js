@@ -1,5 +1,6 @@
 export class Task {
-  constructor(description = "", expectedPomodoros = 1) {
+  constructor(id, description = "", expectedPomodoros = 1) {
+    this.id = id;
     this.description = description;
     this.expectedPomodoros = expectedPomodoros;
     this.actualPomodoros = 0;

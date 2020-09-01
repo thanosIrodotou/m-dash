@@ -1,126 +1,66 @@
 <style>
-    button {
-        background-color: var(--base);
-        border-color: var(--black);
-        color: var(--black);
-        font-size: 1.5em;
-        font-weight: inherit;
-        outline: none;
-        text-transform: uppercase;
-        transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
-    }
-
-    button.primary {
-        background-color: var(--accent);
-        border-color: var(--accent);
-        color: var(--white);
-    }
-
-    button.primary:not(:disabled):hover {
-        background-color: var(--accent-light);
-        border-color: var(--accent-light);
-    }
-
-    button.primary:not(:disabled):active {
-        background-color: var(--accent-dark);
-        border-color: var(--accent-dark);
-    }
-
-    button:focus,
-    button:not(:disabled):hover {
-        background-color: var(--base-light);
-    }
-
-    button.submitTask:not(:disabled):hover {
-        background-color: var(--accent-green-light);
-        border-color: var(--accent-green-light);
-    }
-
-    button:disabled {
-        opacity: 0.1;
-    }
-
-    input, button, select, textarea {
-        font-family: inherit;
-        font-size: 0.5em;
-        font-weight: inherit;
-        padding: 0.3em;
-        margin: 0 auto;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        vertical-align: middle;
-    }
-
     tasksection {
         font-size: 3em;
         font-weight: 300;
     }
 
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+    /*  ul.timeline li {
+          position: relative;
+          height: 3em;
+          color: #888;
+      }
 
-    .description {
-        min-width: 400px;
-    }
+      ul.timeline li:before {
+          content: "";
+          display: inline-block;
+          height: 3em;
+          width: 1px;
+          background: #aaaa;
+          margin: 0;
+          padding: 0;
+          position: absolute;
+          left: -11px;
+          top: -0.4em;
+          z-index: -1;
+      }
 
-    .pomodoros {
-        max-width: 100px;
-    }
+      ul.timeline:before {
+          content: "●";
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+          position: relative;
+          left: -1em;
+          top: 0.1em;
+          color: #aaa;
+      }
+
+      ul.timeline:after {
+          content: "●";
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+          position: relative;
+          left: -1em;
+          top: -1em;
+          color: #aaa;
+      }
+  */
 
     section {
         text-align: center;
     }
-
-    .input {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 80%;
-        border: 0;
-        font-family: inherit;
-        padding: 16px 12px 0 12px;
-        height: 56px;
-        background: rgba(0, 0, 0, .2);
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .3);
-        color: #000;
-        transition: all .15s ease;
-    }
-
-    .input:hover {
-        background: rgba(0, 0, 0, .04);
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .5);
-    }
-
-    .input:not(:placeholder-shown) + label {
-        color: rgba(0, 0, 0, .5);
-        transform: translate3d(0,-12px,0) scale(.75);
-    }
-
-    .input:focus {
-        background: rgba(0, 0, 0, .05);
-        outline: none;
-        box-shadow: inset 0 -2px 0  var(--accent-dark)
-    }
-
-    .inp {
-        position: relative;
-        margin: auto;
-        width: 100%;
-        max-width: 280px;
-        border-radius: 3px;
-        overflow: hidden;
-    }
-
 </style>
 
 <script>
-  import {afterUpdate, onMount} from 'svelte';
+  import {afterUpdate, createEventDispatcher, onMount} from 'svelte';
   import {Task} from '../Task.js';
   import {storedTasks} from '../store';
+  import DragDropList from './DragDropList.svelte';
   import '../ArrayExtensions.js';
+  import ListItem from "./ListItem.svelte";
+
+  const dispatch = createEventDispatcher();
 
   let taskAddedPendingFocus = false;
   let lastInput;
@@ -128,11 +68,12 @@
   $: allExpectedPomodoros = tasks.reduce((acc, t) => acc + t.expectedPomodoros, 0);
 
   function addTask() {
-    tasks = tasks.concat(new Task());
+    tasks = tasks.concat(tasks.length === 0 ? new Task(1) : new Task(tasks.length + 1));
     taskAddedPendingFocus = true;
   }
 
-  function saveTask(task) {
+  function saveTask(event) {
+    let task = event.detail.task;
     if (!task.description) {
       alert('Please describe your task')
     } else {
@@ -140,8 +81,8 @@
     }
   }
 
-  function removeTask(task) {
-    tasks = tasks.remove(task);
+  function removeTask(event) {
+    tasks = tasks.remove(event.detail.task);
     storedTasks.set(tasks);
   }
 
@@ -154,17 +95,11 @@
 
   afterUpdate(focusNewTask);
 
-  function checkExists(description) {
-    storedTasks.useLocalStorage();
-    return $storedTasks.some(item => {
-      return item.description === description
-    })
-  }
-
   onMount(() => {
     storedTasks.useLocalStorage();
     tasks = $storedTasks;
   });
+
 </script>
 
 <section>
@@ -172,23 +107,14 @@
         {#if tasks.length === 0}
             You haven't added any tasks yet.
         {:else}
-            <ul style="line-height: 2em">
-                {#each tasks as task}
-                    <li>
-                            <input class="description input" type="text"
-                                   bind:value={task.description}
-                                   bind:this={lastInput}>
-                        <input class="pomodoros" type="number" bind:value={task.expectedPomodoros}>
-                        <button on:click={() => removeTask(task)}>X</button>
-                        <button id="saveTask" class="submitTask" on:click={() => saveTask(task)}
-                                onchange="checkExists(task.description)"
-                                disabled="{checkExists(task.description)}">
-                            ✔︎
-                        </button>
-
-                    </li>
-                {/each}
-            </ul>
+            <DragDropList
+                    list={tasks}
+                    key={item => item.id}
+                    let:item
+                    let:index
+            >
+                <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
+            </DragDropList>
         {/if}
         <button class="primary" on:click={addTask}>Add</button>
         {#if tasks.length !== 0}
@@ -196,3 +122,5 @@
         {/if}
     </tasksection>
 </section>
+
+
