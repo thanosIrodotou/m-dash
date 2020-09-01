@@ -68,7 +68,7 @@
 
     .input:not(:focus) {
         background-color: var(--base);
-        box-shadow: inset 0 -2px 0 var(--accent-blue-light)
+        box-shadow: inset 0 -2px 0 var(--base-dark)
     }
 
     .input:hover {
@@ -93,8 +93,14 @@
         border-radius: 4px;
         padding: 0 .5em;
         font-size: .5em;
-        vertical-align: middle;
+        vertical-align: sub;
         opacity: 0.7;
+    }
+
+    section:hover {
+        outline: var(--accent-light);
+        outline-style: dashed;
+        outline-width: 1px;
     }
 </style>
 <script>
@@ -123,14 +129,15 @@
   export let index;
 </script>
 
-
-<span>{index + 1}</span>
-<input class="description input" type="text" bind:value={item.description}>
-<input class="pomodoros input" type="number" bind:value={item.expectedPomodoros}>
-<button class="removeTask" on:click={() => removeTask(item)}>X</button>
-<button id="saveTask" class="submitTask" on:click={() => saveTask(item)}
-        onchange="checkExists(item)" disabled="{checkExists(item.description)}">
-    ✔︎
-</button>
-<!--<span>{index + 1}</span> {item.description}-->
-
+<section>
+    <div>
+        <span>{index + 1}</span>
+        <input class="description input" type="text" bind:value={item.description}>
+        <input class="pomodoros input" type="number" bind:value={item.expectedPomodoros}>
+        <button class="removeTask" on:click={() => removeTask(item)}>X</button>
+        <button id="saveTask" class="submitTask" on:click={() => saveTask(item)}
+                onchange="checkExists(item)" disabled="{checkExists(item.description)}">
+            ✔︎
+        </button>
+    </div>
+</section>
