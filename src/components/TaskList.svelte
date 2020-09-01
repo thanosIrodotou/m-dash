@@ -102,9 +102,6 @@
             </DragDropList>
         {/if}
         <button class="primary" on:click={addTask}>Add task</button>
-        {#if tasks.length !== 0}
-            <p>Today you'll complete {allExpectedPomodoros} pomodoros.</p>
-        {/if}
     </tasksection>
 </section>
 
