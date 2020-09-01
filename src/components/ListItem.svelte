@@ -10,25 +10,14 @@
         transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
     }
 
-    button.primary {
-        background-color: var(--accent);
-        border-color: var(--accent);
-        color: var(--white);
-    }
-
-    button.primary:not(:disabled):hover {
-        background-color: var(--accent-light);
-        border-color: var(--accent-light);
-    }
-
-    button.primary:not(:disabled):active {
-        background-color: var(--accent-dark);
-        border-color: var(--accent-dark);
-    }
-
     button:focus,
     button:not(:disabled):hover {
         background-color: var(--base-light);
+    }
+
+    button.removeTask:not(:disabled):hover {
+        background-color: var(--accent);
+        border-color: var(--accent-dark);
     }
 
     button.submitTask:not(:disabled):hover {
@@ -135,9 +124,10 @@
 </script>
 
 
-<span>{index + 1}</span><input class="description input" type="text" bind:value={item.description}>
-<input class="pomodoros" type="number" bind:value={item.expectedPomodoros}>
-<button on:click={() => removeTask(item)}>X</button>
+<span>{index + 1}</span>
+<input class="description input" type="text" bind:value={item.description}>
+<input class="pomodoros input" type="number" bind:value={item.expectedPomodoros}>
+<button class="removeTask" on:click={() => removeTask(item)}>X</button>
 <button id="saveTask" class="submitTask" on:click={() => saveTask(item)}
         onchange="checkExists(item)" disabled="{checkExists(item.description)}">
     ✔︎

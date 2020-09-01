@@ -4,51 +4,36 @@
         font-weight: 300;
     }
 
-    /*  ul.timeline li {
-          position: relative;
-          height: 3em;
-          color: #888;
-      }
-
-      ul.timeline li:before {
-          content: "";
-          display: inline-block;
-          height: 3em;
-          width: 1px;
-          background: #aaaa;
-          margin: 0;
-          padding: 0;
-          position: absolute;
-          left: -11px;
-          top: -0.4em;
-          z-index: -1;
-      }
-
-      ul.timeline:before {
-          content: "●";
-          display: inline-block;
-          margin: 0;
-          padding: 0;
-          position: relative;
-          left: -1em;
-          top: 0.1em;
-          color: #aaa;
-      }
-
-      ul.timeline:after {
-          content: "●";
-          display: inline-block;
-          margin: 0;
-          padding: 0;
-          position: relative;
-          left: -1em;
-          top: -1em;
-          color: #aaa;
-      }
-  */
-
     section {
         text-align: center;
+    }
+
+    button {
+        font-family: inherit;
+        font-size: 0.5em;
+        font-weight: inherit;
+        padding: 0.3em;
+        margin: 0 auto;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        vertical-align: middle;
+    }
+
+    button.primary {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: var(--white);
+    }
+
+    button.primary:not(:disabled):hover {
+        background-color: var(--accent-light);
+        border-color: var(--accent-light);
+    }
+
+    button.primary:not(:disabled):active {
+        background-color: var(--accent-dark);
+        border-color: var(--accent-dark);
     }
 </style>
 
@@ -116,7 +101,7 @@
                 <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
             </DragDropList>
         {/if}
-        <button class="primary" on:click={addTask}>Add</button>
+        <button class="primary" on:click={addTask}>Add task</button>
         {#if tasks.length !== 0}
             <p>Today you'll complete {allExpectedPomodoros} pomodoros.</p>
         {/if}
