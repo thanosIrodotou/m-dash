@@ -50,14 +50,14 @@
 
 <nav>
 	<ul>
-		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">utils</a></li>
-		<li><a aria-current="{segment === 'crypto' ? 'page' : undefined}" href="crypto">crypto</a></li>
+		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
+		<!-- <li><a aria-current="{segment === 'crypto' ? 'page' : undefined}" href="crypto">crypto</a></li>
 		<li><a aria-current="{segment === 'pulls' ? 'page' : undefined}" href="pulls">pulls</a></li>
 		<li><a aria-current="{segment === 'devNews' ? 'page' : undefined}" href="devNews">devNews</a></li>
 		<li><a aria-current="{segment === 'misc' ? 'page' : undefined}" href="misc">misc</a></li>
 
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-<!--		<li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>-->
+		 for the blog link, we're using rel=prefetch so that Sapper prefetches
+		     the blog data when we hover over the link or tap it on a touchscreen 
+		<li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>-->
 	</ul>
 </nav>
