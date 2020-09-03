@@ -19,5 +19,5 @@ const createWritableStore = (key, startValue) => {
   };
 }
 
-export const count = createWritableStore('count', 1500);
+export const count = createWritableStore('count', {timer: 1500, rest: 300});
 export const storedTasks = createWritableStore('tasks', []);

@@ -66,7 +66,7 @@
 </div>
 {#if showModal}
     <Modal closeOnEsc="true" onClose={showModal = false}>
-        <Content />
+        <Content type="tips" message="Keyboard Shortcuts" />
     </Modal>
 {/if}
 

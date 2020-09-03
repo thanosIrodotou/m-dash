@@ -5,13 +5,22 @@
 <style>
     button {
         background-color: var(--base);
-        border-color: var(--black);
-        color: var(--black);
+        border: none;
         font-size: 1.5em;
         font-weight: inherit;
         outline: none;
         text-transform: uppercase;
-        transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
+        transition: background-color .2s, color .2s, opacity .2s;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    button.primary:disabled {
+        opacity: 1;
     }
 
     button.primary {
@@ -30,23 +39,38 @@
         border-color: var(--accent-dark);
     }
 
-    button.paused:not(:disabled):hover {
-        background-color: var(--accent-blue-light);
+    button:not(.reset):focus,
+    button:not(.reset):not(:disabled):hover {
+        border: dashed 1px;
+    }
+
+    button:not(.reset):not(:disabled):active {
+        background-color: var(--base-dark);
+    }
+
+    button.reset {
+        background: url('reset-clock.svg') no-repeat transparent;
+        width: 1.8em;
+        height: 1.8em;
+        border: none;
+    }
+
+    button.paused:focus {
+        border: dashed 1px;
         border-color: var(--accent-blue-light);
     }
 
-
-    button:disabled {
-        opacity: 0.5;
+    .slide:not(:disabled):hover, .slide:not(:disabled):focus {
+        transform: scale(1.1);
+        cursor: pointer
     }
 
-    button:focus,
-    button:not(:disabled):hover {
-        background-color: var(--base-light);
-    }
-
-    button:not(:disabled):active {
-        background-color: var(--base-dark);
+    .slide:not(:disabled):active {
+        -moz-transform: scale(1.1) rotate(-45deg);
+        -o-transform: scale(1.1) rotate(-45deg);
+        -ms-transform: scale(1.1) rotate(-45deg);
+        -webkit-transform: scale(1.1) rotate(-45deg);
+        transform: scale(1.1) rotate(-45deg);
     }
 
     input, button, select, textarea {
@@ -57,7 +81,7 @@
         margin: 0 auto;
         box-sizing: border-box;
         border: 1px solid #ccc;
-        border-radius: 2px;
+        border-radius: 5px;
         vertical-align: middle;
     }
 
@@ -70,6 +94,13 @@
         text-align: center;
     }
 
+    .shortcuts {
+        position: fixed;
+        bottom: 0;
+        left: 1%;
+    }
+
+    /* Progress Bars */
     .inProgress progress[value]::-webkit-progress-bar {
         background-image: -webkit-linear-gradient(
                 180deg,
@@ -252,6 +283,7 @@
   }
 
   function startPomodoro() {
+    document.getElementById('timerButton').classList.add('primary');
     currentState = State.inProgress;
     interval = setInterval(() => {
       progress = 100 - (pomodoroTime / 1500) * 100;
@@ -262,6 +294,30 @@
       progress -= 1;
       pomodoroTime -= 1;
     }, 1000);
+  }
+
+  function rest(time) {
+    document.getElementById('restButton').classList.add('primary');
+    document.getElementById('timerButton').classList.remove('primary');
+    currentState = State.resting;
+    restTime = time;
+    interval = setInterval(() => {
+      progress = (restTime / 300) * 100;
+      document.getElementById('restProgress').value = progress;
+      if (pomodoroTime === 0) {
+        idle();
+        restDoneSound.play('start');
+      }
+      restTime -= 1;
+    }, 1000);
+  }
+
+  function pausePomodoro() {
+    document.getElementById('timerButton').classList.remove('primary');
+    document.getElementById('restButton').classList.remove('primary');
+    pause();
+    count.set({timer: pomodoroTime, rest: restTime});
+    count.useLocalStorage();
   }
 
   function completePomodoro() {
@@ -276,27 +332,6 @@
     }
   }
 
-  function rest(time) {
-    currentState = State.resting;
-    pomodoroTime = time;
-    interval = setInterval(() => {
-      progress = (pomodoroTime / 300) * 100;
-      document.getElementById('restProgress').value = progress;
-      console.log('resting', progress);
-      if (pomodoroTime === 0) {
-        idle();
-        restDoneSound.play('start');
-      }
-      pomodoroTime -= 1;
-    }, 1000);
-  }
-
-  function pausePomodoro() {
-    pause();
-    count.set(pomodoroTime);
-    count.useLocalStorage();
-  }
-
   function cancelPomodoro() {
     idle();
   }
@@ -305,6 +340,7 @@
     currentState = State.idle;
     clearInterval(interval);
     pomodoroTime = POMODORO_S;
+    restTime = SHORT_BREAK_S;
   }
 
   function pause() {
@@ -314,7 +350,7 @@
 
   function handleKeyPress(event) {
     let keyIsSpace = event.keyCode === 32;
-    if (keyIsSpace && currentState === State.inProgress) {
+    if (keyIsSpace && (currentState === State.inProgress)) {
       pausePomodoro();
     } else if (keyIsSpace && (currentState === State.paused || currentState === State.idle)) {
       startPomodoro();
@@ -324,24 +360,32 @@
   onMount(() => {
     count.useLocalStorage();
     if (count) {
-      pomodoroTime = $count;
+      pomodoroTime = $count.timer;
+      restTime = $count.rest;
     }
   });
 </script>
 
-<svelte:window on:beforeunload={count.set(pomodoroTime || 1500)} on:keydown={handleKeyPress}/>
+<svelte:window on:beforeunload={count.set({timer: pomodoroTime || 1500, rest: restTime || 300})}
+               on:keydown={handleKeyPress}/>
+
 <section>
     <time>
-        {formatTime(pomodoroTime)} - break {formatTime(restTime)} - cycle {completedPomodoros}
-        <button class="primary" on:click={startPomodoro}
-                disabled={currentState !== State.idle && currentState !== State.paused}>
-            start
+        <button class="reset slide" on:click={cancelPomodoro}
+                disabled={(currentState === State.inProgress && currentState === State.resting) && currentState !== State.paused}>
         </button>
-        <button on:click={cancelPomodoro}
-                disabled={currentState !== State.inProgress && currentState !== State.paused}>cancel
+        <button id="timerButton" class="primary timer" on:click={startPomodoro}
+                disabled={currentState === State.inProgress || currentState === State.resting}>
+            {formatTime(pomodoroTime)}
+        </button>
+        -
+        <button id="restButton" class="rest" on:click={rest(restTime)}
+                disabled="{currentState === State.resting || currentState === State.inProgress}">
+            {formatTime(restTime)}
         </button>
         <button class="paused" on:click={pausePomodoro}
-                disabled={currentState !== State.inProgress}>pause
+                disabled={(currentState !== State.inProgress && currentState !== State.resting)}>
+            pause
         </button>
     </time>
 </section>
@@ -352,8 +396,11 @@
     </div>
 {/if}
 {#if currentState === State.resting}
-<div class="inRest">
-    <progress id="restProgress" class="fade-in" max="100"
-              value={(pomodoroTime / 300) * 100}></progress>
-</div>
+    <div class="inRest">
+        <progress id="restProgress" class="fade-in" max="100"
+                  value={(pomodoroTime / 300) * 100}></progress>
+    </div>
 {/if}
+<div class="shortcuts">
+    shift+?
+</div>

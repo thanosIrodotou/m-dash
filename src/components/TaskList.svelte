@@ -18,6 +18,7 @@
         border: 1px solid #ccc;
         border-radius: 2px;
         vertical-align: middle;
+        cursor: pointer;
     }
 
     button.primary {
@@ -38,14 +39,12 @@
 </style>
 
 <script>
-  import {afterUpdate, createEventDispatcher, onMount} from 'svelte';
+  import {afterUpdate, onMount} from 'svelte';
   import {Task} from '../Task.js';
   import {storedTasks} from '../store';
   import DragDropList from './DragDropList.svelte';
   import '../ArrayExtensions.js';
   import ListItem from "./ListItem.svelte";
-
-  const dispatch = createEventDispatcher();
 
   let taskAddedPendingFocus = false;
   let lastInput;

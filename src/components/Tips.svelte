@@ -37,7 +37,7 @@
 </style>
 <ul>
     <li>
-        <span class="header">{message}</span>
+        <span class="header">{message.message}</span>
     </li>
     <hr/>
     <li>
@@ -48,5 +48,11 @@
         <span class="shortcut">spacebar</span>
         <span class="description">start/pause pomodoro timer</span>
     </li>
-
+    <hr/>
+    <li>
+        <h2 style="text-align: left; color: var(--black)">Tips</h2>
+    </li>
+    <li>
+        * <span class="description">Drag and drop tasks to reorder your tasks list.</span>
+    </li>
 </ul>

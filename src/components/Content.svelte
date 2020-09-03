@@ -1,27 +1,53 @@
 <script>
   import {getContext} from 'svelte';
-  import { fly } from 'svelte/transition';
+  import {fly} from 'svelte/transition';
   import Tips from './Tips.svelte';
+  import Dialog from './Dialog.svelte';
 
   const {open} = getContext('simple-modal');
 
+  export let message;
+  export let type;
+
+  let name;
+  let status = 0;
+
+  const onCancel = (text) => {
+    name = '';
+    status = -1;
+  }
+
+  const onOkay = (text) => {
+    name = text;
+    status = 1;
+  }
+
+  const showDialog = () => {
+    open(
+      Dialog,
+      {
+        message: {message},
+        onCancel,
+        onOkay
+      },
+      {
+        closeButton: false,
+        closeOnEsc: false,
+        closeOnOuterClick: false,
+      }
+    );
+  };
+
   const showTip = () => {
     open(Tips,
-      {message: 'Keyboard Shortcuts'},
+      {message: {message}},
       {
         styleWindow: {
-          // border: '2px solid #00beff',
-          // boxShadow: 'inset 0 0 0 2px white, 0 0 0 2px white',
           background: 'var(--base-dark)'
         },
         styleContent: {
           color: '#999999',
         },
-        // styleCloseButton: {
-        //   borderRadius: 0,
-        //   boxShadow: '0 0 0 2px white',
-        //   background: 'pink'
-        // },
         transitionWindow: fly,
         transitionWindowProps: {
           y: 100,
@@ -33,4 +59,9 @@
 
 </script>
 
-<svelte:window on:beforeunload={showTip()}/>
+{#if type === 'dialog'}
+    {showDialog()}
+{/if}
+{#if type === 'tips'}
+    {showTip()}
+{/if}

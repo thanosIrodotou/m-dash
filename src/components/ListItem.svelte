@@ -8,6 +8,7 @@
         outline: none;
         text-transform: uppercase;
         transition: background-color .2s, color .2s, border-color .2s, opacity .2s;
+        cursor: pointer;
     }
 
     button:focus,
@@ -97,10 +98,18 @@
         opacity: 0.7;
     }
 
+    section:hover:before {
+        transform: scale(5);
+        box-shadow: 0 0 15px var(--accent-dark);
+    }
+
     section:hover {
-        outline: var(--accent-light);
-        outline-style: dashed;
-        outline-width: 1px;
+        color: var(--accent-dark);
+        box-shadow: 0px 1px 0px var(--accent-dark), 0px -1px 0px var(--accent-dark);
+        text-shadow: 0 0 10px var(--accent-dark);
+        border-left: 1px dashed;
+        border-right: 1px dashed;
+        border-radius: 10px;
     }
 </style>
 <script>
