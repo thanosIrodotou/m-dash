@@ -274,7 +274,7 @@
   let restTime = SHORT_BREAK_S;
   let completedPomodoros = 0;
   let interval;
-  let progress = 1500;
+  let progress;
 
   function formatTime(timeInSeconds) {
     const minutes = secondsToMinutes(timeInSeconds);
@@ -290,9 +290,11 @@
       document.getElementById('pomodoroProgress').value = progress;
       if (pomodoroTime === 0) {
         completePomodoro();
+        workDoneSound.play('start');
+      } else {
+        progress -= 1;
+        pomodoroTime -= 1;
       }
-      progress -= 1;
-      pomodoroTime -= 1;
     }, 1000);
   }
 
@@ -307,8 +309,10 @@
       if (restTime === 0) {
         idle();
         restDoneSound.play('start');
+      } else {
+        progress -= 1;
+        restTime -= 1;
       }
-      restTime -= 1;
     }, 1000);
   }
 
@@ -321,7 +325,6 @@
   }
 
   function completePomodoro() {
-    workDoneSound.play('start');
     clearInterval(interval);
     completedPomodoros++;
     if (completedPomodoros === 4) {
@@ -337,6 +340,8 @@
   }
 
   function idle() {
+    document.getElementById('timerButton').classList.remove('primary');
+    document.getElementById('restButton').classList.remove('primary');
     currentState = State.idle;
     clearInterval(interval);
     pomodoroTime = POMODORO_S;
