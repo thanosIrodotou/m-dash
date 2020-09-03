@@ -304,7 +304,7 @@
     interval = setInterval(() => {
       progress = (restTime / 300) * 100;
       document.getElementById('restProgress').value = progress;
-      if (pomodoroTime === 0) {
+      if (restTime === 0) {
         idle();
         restDoneSound.play('start');
       }
