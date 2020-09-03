@@ -62,6 +62,7 @@
 {#if type === 'dialog'}
     {showDialog()}
 {/if}
-{#if type === 'tips'}
-    {showTip()}
-{/if}
+<svelte:window on:beforeunload={showTip()}/>
+<!--{#if type === 'tips'}-->
+<!--    {showTip()}-->
+<!--{/if}-->
