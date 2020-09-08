@@ -14,6 +14,12 @@
         box-sizing: border-box;
     }
 
+    :global(body.darkmode--activated) main {
+        mix-blend-mode: difference;
+        background-color: var(--dark-mode);
+        color: #bfc2c7;
+    }
+
     :global(*) {
         user-select: none;
     }

@@ -221,6 +221,8 @@
         -webkit-animation: fadeIn ease 1s;
         -moz-animation: fadeIn ease 1s;
         -o-animation: fadeIn ease 1s;
+        border: none;
+        background-color: transparent;
     }
 
     @keyframes fadeIn {

@@ -43,7 +43,7 @@
   import {Task} from '../Task.js';
   import {storedTasks} from '../store';
   import DragDropList from './DragDropList.svelte';
-  import '../ArrayExtensions.js';
+  import '../utils.js';
   import ListItem from "./ListItem.svelte";
 
   let taskAddedPendingFocus = false;
