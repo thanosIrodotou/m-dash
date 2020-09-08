@@ -67,6 +67,23 @@
         font-weight: inherit;
     }
 
+    :global(body.darkmode--activated) input:not(:focus) {
+        background-color: var(--dark-mode);
+        color: white !important;
+    }
+
+    :global(body.darkmode--activated) input:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white !important;
+    }
+
+    :global(body.darkmode--activated) input:focus {
+        background: rgba(255, 255, 255, 0.3);
+        outline: none;
+        box-shadow: inset 0 -2px 0 var(--accent-dark);
+        color: white !important;
+    }
+
     .input:not(:focus) {
         background-color: var(--base);
         box-shadow: inset 0 -2px 0 var(--base-dark)
@@ -90,11 +107,12 @@
 
     span {
         background-color: #ddd;
+        color: var(--accent-dark);
         margin: .5em;
         border-radius: 4px;
         padding: 0 .5em;
         font-size: .5em;
-        vertical-align: sub;
+        vertical-align: middle;
         opacity: 0.7;
     }
 

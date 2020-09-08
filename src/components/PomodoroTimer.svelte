@@ -55,6 +55,10 @@
         border: none;
     }
 
+    :global(body.darkmode--activated) button.reset {
+        filter: invert(100%);
+    }
+
     button.paused:focus {
         border: dashed 1px;
         border-color: var(--accent-blue-light);
@@ -96,8 +100,13 @@
 
     .shortcuts {
         position: fixed;
-        bottom: 0;
-        left: 1%;
+        bottom: 24px;
+        right: unset;
+        left: 32px;
+    }
+
+    :global(body.darkmode--activated) .shortcuts {
+        color: white !important;
     }
 
     /* Progress Bars */

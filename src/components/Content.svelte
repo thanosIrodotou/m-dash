@@ -42,6 +42,11 @@
     open(Tips,
       {message: {message}},
       {
+        styleBg: {
+          background: 'transparent',
+          top: 0,
+          left: 0
+        },
         styleWindow: {
           background: 'var(--base-dark)'
         },
