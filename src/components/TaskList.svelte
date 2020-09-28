@@ -52,7 +52,6 @@
   $: allExpectedPomodoros = tasks.reduce((acc, t) => acc + t.expectedPomodoros, 0);
 
   function addTask() {
-    console.log('adding task');
     tasks = tasks.concat(tasks.length === 0 ? new Task(1) : new Task(tasks.length + 1));
     taskAddedPendingFocus = true;
   }
@@ -68,6 +67,11 @@
 
   function removeTask(event) {
     tasks = tasks.remove(event.detail.task);
+
+    // re-set ids after a task is removed
+    tasks.forEach((task, accum) => {
+      task.id = accum
+    })
     storedTasks.set(tasks);
   }
 
