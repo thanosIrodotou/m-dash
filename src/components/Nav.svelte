@@ -27,9 +27,13 @@
 	}
 
 	nav {
-		border-bottom: 1px solid rgba(255,62,0,0.1);
+		border-bottom: 1px solid rgba(0,0,0,0.1);
 		font-weight: 300;
 		padding: 0 1em;
+	}
+
+	:global(body.darkmode--activated) nav {
+		border-bottom: 1px solid rgba(0,0,0,0.5);
 	}
 
 	ul {
