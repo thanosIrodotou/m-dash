@@ -105,8 +105,6 @@
                 <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
             </DragDropList>
         {/if}
-        <button class="primary" on:click={addTask}>Add task</button>
+        <button class="addtask primary" on:click={addTask}>Add task</button>
     </tasksection>
 </section>
-
-
