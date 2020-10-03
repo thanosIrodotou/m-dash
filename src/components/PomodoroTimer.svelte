@@ -365,7 +365,14 @@
   }
 
   function handleKeyPress(event) {
-    let keyIsSpace = event.keyCode === 32;
+    const activeElementIsInput = document.activeElement.classList.value.includes('description input');
+    const activeElementIsAddTask = document.activeElement.classList.value.includes('addtask');
+    const shouldNotHanleKeyPress = activeElementIsInput || activeElementIsAddTask;
+    const keyIsSpace = event.keyCode === 32;
+
+    if (shouldNotHanleKeyPress) {
+      return;
+    }
     if (keyIsSpace && (currentState === State.inProgress)) {
       pausePomodoro();
     } else if (keyIsSpace && (currentState === State.paused || currentState === State.idle)) {
