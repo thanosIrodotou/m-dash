@@ -281,6 +281,7 @@
   });
 
   let currentState = State.idle;
+  let previousState = currentState;
   let pomodoroTime = POMODORO_S;
   let restTime = SHORT_BREAK_S;
   let completedPomodoros = 0;
@@ -295,6 +296,7 @@
 
   function startPomodoro() {
     document.getElementById('timerButton').classList.add('primary');
+    previousState = currentState;
     currentState = State.inProgress;
     interval = setInterval(() => {
       progress = 100 - (pomodoroTime / 1500) * 100;
@@ -312,6 +314,7 @@
   function rest(time) {
     document.getElementById('restButton').classList.add('primary');
     document.getElementById('timerButton').classList.remove('primary');
+    previousState = currentState;
     currentState = State.resting;
     restTime = time;
     interval = setInterval(() => {
@@ -333,6 +336,12 @@
     pause();
     count.set({timer: pomodoroTime, rest: restTime});
     count.useLocalStorage();
+  }
+
+  function pause() {
+    previousState = currentState;
+    currentState = State.paused;
+    clearInterval(interval)
   }
 
   function completePomodoro() {
@@ -357,11 +366,6 @@
     clearInterval(interval);
     pomodoroTime = POMODORO_S;
     restTime = SHORT_BREAK_S;
-  }
-
-  function pause() {
-    currentState = State.paused;
-    clearInterval(interval)
   }
 
   function handleKeyPress(event) {
@@ -412,16 +416,16 @@
         </button>
     </time>
 </section>
-{#if (pomodoroTime <= 1500 && currentState !== State.resting)}
+{#if (pomodoroTime <= 1500 && currentState !== State.resting) && previousState !== State.resting}
     <div class="inProgress">
         <progress id="pomodoroProgress" class="fade-in" max="100"
                   value={100 - (pomodoroTime / 1500) * 100}></progress>
     </div>
 {/if}
-{#if currentState === State.resting}
+{#if currentState === State.resting || previousState === State.resting}
     <div class="inRest">
         <progress id="restProgress" class="fade-in" max="100"
-                  value={(pomodoroTime / 300) * 100}></progress>
+                  value={(restTime / 300) * 100}></progress>
     </div>
 {/if}
 <div class="shortcuts">
