@@ -110,24 +110,40 @@
     }
 
     /* Progress Bars */
-    .inProgress progress[value]::-webkit-progress-bar {
-        background-image: -webkit-linear-gradient(
-                180deg,
-                transparent 100%,
-                rgba(0, 0, 0, 0) 33%,
-                rgba(0, 0, 0, 0) 66%,
-                transparent 66%
-        ),
-        -webkit-linear-gradient(
-                top,
-                rgba(255, 255, 255, 0),
-                rgba(0, 0, 0, 0)
-        ),
-        -webkit-linear-gradient(
-                left,
-                #09c,
-                #f44
-        );
+  .inProgress progress { 
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .inProgress progress::-webkit-progress-bar {
+      background-color: rgba(0,0,0,0);
+  }
+
+  .inRest progress { 
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .inRest progress::-webkit-progress-bar {
+      background-color: rgba(0,0,0,0);
+  }
+
+  .inProgress progress[value]::-webkit-progress-value {
+      background-image:
+           -webkit-linear-gradient(
+              180deg, 
+              transparent 100%,
+              rgba(0, 0, 0, 0) 33%,
+              rgba(0,0, 0, 0) 66%,
+              transparent 66%
+          ),
+           -webkit-linear-gradient(
+              top, 
+              rgba(255, 255, 255, 0), 
+              rgba(0, 0, 0, 0)
+          ),
+           -webkit-linear-gradient(left, #09c, #f44);
+
 
         border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
@@ -166,33 +182,28 @@
         -moz-border-radius: 15px;
     }
 
-    .inRest progress[value]::-webkit-progress-bar {
-        background-image: -webkit-linear-gradient(
-                180deg,
-                transparent 100%,
-                rgba(0, 0, 0, 0) 33%,
-                rgba(0, 0, 0, 0) 66%,
-                transparent 66%
-        ),
-        -webkit-linear-gradient(
-                top,
-                rgba(255, 255, 255, 0),
-                rgba(0, 0, 0, 0)
-        ),
-        -webkit-linear-gradient(
-                left,
-                #09c,
-                #44ff9e
-        );
+    .inRest progress[value]::-webkit-progress-value {
+      background-image:
+           -webkit-linear-gradient(
+              180deg, 
+              transparent 100%,
+              rgba(0, 0, 0, 0) 33%,
+              rgba(0,0, 0, 0) 66%,
+              transparent 66%
+          ),
+           -webkit-linear-gradient(
+              top, 
+              rgba(255, 255, 255, 0), 
+              rgba(0, 0, 0, 0)
+          ),
+           -webkit-linear-gradient(left, #09c, #44ff9e);
 
         border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
         -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
         -webkit-border-radius: 15px;
-        -moz-border-radius: 15px;
     }
 
     .inRest progress[value]::-moz-progress-bar {
@@ -217,10 +228,8 @@
         border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
-        -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-border-radius: 15px;
         -moz-border-radius: 15px;
     }
 
@@ -244,6 +253,15 @@
     }
 
     @-moz-keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
         0% {
             opacity: 0;
         }
