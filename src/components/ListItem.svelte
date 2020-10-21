@@ -49,7 +49,7 @@
     .input {
         -webkit-appearance: none;
         appearance: none;
-        width: 65%;
+        width: 90%;
         border: 0;
         font-family: inherit;
         padding: 16px 12px 0 12px;
