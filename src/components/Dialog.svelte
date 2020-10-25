@@ -23,7 +23,6 @@
   }
 
   function _onOkay() {
-    console.log('SENDING');
     onOkay(value);
     dispatch('resetTimer', {})
     close();

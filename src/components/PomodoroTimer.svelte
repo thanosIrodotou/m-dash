@@ -110,7 +110,7 @@
     }
 
     /* Progress Bars */
-  .inProgress progress { 
+  .inProgress progress {
     -webkit-appearance: none;
     appearance: none;
   }
@@ -119,7 +119,7 @@
       background-color: rgba(0,0,0,0);
   }
 
-  .inRest progress { 
+  .inRest progress {
     -webkit-appearance: none;
     appearance: none;
   }
@@ -131,15 +131,15 @@
   .inProgress progress[value]::-webkit-progress-value {
       background-image:
            -webkit-linear-gradient(
-              180deg, 
+              180deg,
               transparent 100%,
               rgba(0, 0, 0, 0) 33%,
               rgba(0,0, 0, 0) 66%,
               transparent 66%
           ),
            -webkit-linear-gradient(
-              top, 
-              rgba(255, 255, 255, 0), 
+              top,
+              rgba(255, 255, 255, 0),
               rgba(0, 0, 0, 0)
           ),
            -webkit-linear-gradient(left, #09c, #f44);
@@ -185,15 +185,15 @@
     .inRest progress[value]::-webkit-progress-value {
       background-image:
            -webkit-linear-gradient(
-              180deg, 
+              180deg,
               transparent 100%,
               rgba(0, 0, 0, 0) 33%,
               rgba(0,0, 0, 0) 66%,
               transparent 66%
           ),
            -webkit-linear-gradient(
-              top, 
-              rgba(255, 255, 255, 0), 
+              top,
+              rgba(255, 255, 255, 0),
               rgba(0, 0, 0, 0)
           ),
            -webkit-linear-gradient(left, #09c, #44ff9e);
@@ -353,7 +353,7 @@
     document.getElementById('restButton').classList.remove('primary');
     pause();
     count.set({timer: pomodoroTime, rest: restTime});
-    count.useLocalStorage();
+    count.useLocalStorage('POMO');
   }
 
   function pause() {
@@ -403,7 +403,7 @@
   }
 
   onMount(() => {
-    count.useLocalStorage();
+    count.useLocalStorage('POMO');
     if (count) {
       pomodoroTime = $count.timer;
       restTime = $count.rest;
