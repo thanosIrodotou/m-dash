@@ -22,40 +22,57 @@
   // events
   let draggingId = null;
   let overId = null;
+
   const getDraggedParent = node =>
     node.dataset && node.dataset.index
       ? node.dataset
       : getDraggedParent(node.parentNode);
+
   const onDragstart = ev => {
     ev.effectAllowed = "move";
     const parent = getDraggedParent(ev.target);
     ev.dataTransfer.setData("source", parent.index);
-    if (draggingId !== parent.id) draggingId = parent.id;
+    if (draggingId !== parent.id) {
+      draggingId = parent.id;
+    }
   };
+
   const onDragover = ev => {
     ev.preventDefault();
     ev.dropEffect = "move";
     const parent = getDraggedParent(ev.target);
-    if (overId !== parent.id) overId = parent.id;
+    if (overId !== parent.id) {
+      overId = parent.id;
+    }
   };
+
   const onDragleave = ev => {
     const parent = getDraggedParent(ev.target);
-    if (overId === parent.id) overId = null;
+    if (overId === parent.id) {
+      overId = null;
+    }
   };
+
   const onDrop = ev => {
     const parent = getDraggedParent(ev.target);
     const fromIdx = ev.dataTransfer.getData("source");
-    if (!parent.id || !fromIdx) return;
+    if (!parent.id || !fromIdx) {
+      return;
+    }
     ev.preventDefault();
     overId = null;
     draggingId = null;
     const toIdx = parent.index;
     reorder({ fromIdx, toIdx });
   };
+
   // dispatch "reordered"
   const dispatch = createEventDispatcher();
+
   const reorder = ({ fromIdx, toIdx }) => {
-    if (fromIdx === toIdx) return;
+    if (fromIdx === toIdx) {
+      return;
+    }
     const newList = [...list];
     const fromItem = list[fromIdx];
     newList.splice(fromIdx, 1);
@@ -63,6 +80,7 @@
     list = newList;
     dispatch("reordered", newList);
   };
+
   export let list;
   export let key = item => item;
   const getKey = key;
