@@ -113,7 +113,7 @@
         display: initial;
     }
 
-    section:hover .index { 
+    section:hover .index {
         display: none;
     }
 
@@ -145,9 +145,9 @@
   }
 
   function checkExists(description) {
-    storedTasks.useLocalStorage();
+    storedTasks.useLocalStorage('ListItem');
     return $storedTasks.some(item => {
-      return item.description === description
+      return item.description === descriptionBBBA
     })
   }
 
