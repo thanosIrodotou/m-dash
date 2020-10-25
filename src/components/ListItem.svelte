@@ -41,11 +41,6 @@
         min-width: 400px;
     }
 
-    .pomodoros {
-        max-width: 100px;
-        vertical-align: middle;
-    }
-
     .input {
         -webkit-appearance: none;
         appearance: none;
@@ -147,7 +142,7 @@
   function checkExists(description) {
     storedTasks.useLocalStorage('ListItem');
     return $storedTasks.some(item => {
-      return item.description === descriptionBBBA
+      return item.description === description
     })
   }
 
