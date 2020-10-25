@@ -82,7 +82,7 @@
     }
   }
 
-  function onReodered(ev) {
+  function onReordered(ev) {
     tasks = ev.detail;
     storedTasks.set(tasks);
   }
@@ -106,7 +106,7 @@
                     key={item => item.id}
                     let:item
                     let:index
-                    on:reordered={onReodered}>
+                    on:reordered={onReordered}>
                 <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
             </DragDropList>
         {/if}

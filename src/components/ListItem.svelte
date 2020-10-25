@@ -41,11 +41,6 @@
         min-width: 400px;
     }
 
-    .pomodoros {
-        max-width: 100px;
-        vertical-align: middle;
-    }
-
     .input {
         -webkit-appearance: none;
         appearance: none;
