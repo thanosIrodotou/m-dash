@@ -147,7 +147,7 @@
   function checkExists(description) {
     storedTasks.useLocalStorage('ListItem');
     return $storedTasks.some(item => {
-      return item.description === descriptionBBBA
+      return item.description === description
     })
   }
 
