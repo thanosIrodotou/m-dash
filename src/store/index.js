@@ -6,7 +6,7 @@ const createWritableStore = (key, startValue) => {
   return {
     subscribe,
     set,
-    useLocalStorage: () => {
+    useLocalStorage: (caller) => {
       const json = localStorage.getItem(key);
       if (json) {
         set(JSON.parse(json));
