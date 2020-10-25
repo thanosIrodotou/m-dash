@@ -82,10 +82,15 @@
     }
   }
 
+  function onReodered(ev) {
+    tasks = ev.detail;
+    storedTasks.set(tasks);
+  }
+
   afterUpdate(focusNewTask);
 
   onMount(() => {
-    storedTasks.useLocalStorage();
+    storedTasks.useLocalStorage('TaskList');
     tasks = $storedTasks;
   });
 
@@ -101,7 +106,7 @@
                     key={item => item.id}
                     let:item
                     let:index
-            >
+                    on:reordered={onReodered}>
                 <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
             </DragDropList>
         {/if}
