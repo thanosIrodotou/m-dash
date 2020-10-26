@@ -145,12 +145,10 @@
            -webkit-linear-gradient(left, #09c, #f44);
 
 
-        border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-border-radius: 15px;
+        border-radius: 15px;
     }
 
     .inProgress progress[value]::-moz-progress-bar {
@@ -172,14 +170,10 @@
                 #f44
         );
 
-        border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-border-radius: 15px;
-        -moz-border-radius: 15px;
+        border-radius: 15px;
     }
 
     .inRest progress[value]::-webkit-progress-value {
@@ -198,12 +192,10 @@
           ),
            -webkit-linear-gradient(left, #09c, #44ff9e);
 
-        border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-border-radius: 15px;
+        border-radius: 15px;
     }
 
     .inRest progress[value]::-moz-progress-bar {
@@ -225,12 +217,10 @@
                 #44ff9e
         );
 
-        border-radius: 2px;
         background-color: rgba(0, 0, 0, 0);
         background-size: 35px 20px, 100% 100%, 100% 100%;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -moz-border-radius: 15px;
+        border-radius: 15px;
     }
 
     .fade-in {
