@@ -96,7 +96,7 @@
     for (let i = 0; i < tasks.length; i++) {
       let task = tasks[i];
       let extractedTag = task.description.match(/(\(\w+\))/gm);
-      if (extractedTag.constructor === Array && extractedTag.length === 1) {
+      if (extractedTag && extractedTag.constructor === Array && extractedTag.length === 1) {
         let tag = extractedTag[0];
         let find = tagToColor.find(v => {
           return v.tag === tag;
@@ -118,8 +118,8 @@
       if (task.color && task.tag) {
         continue;
       }
-      let extractedTag = task.description.match(/(\(\w+\))/gm);
-      if (extractedTag.constructor === Array && extractedTag.length === 1) {
+      let extractedTag = task.description.match(/^\([A-Z0-9]+\)/gm);
+      if (extractedTag && extractedTag.constructor === Array && extractedTag.length === 1) {
         let tag = extractedTag[0];
         task['tag'] = tag;
         let taskFind = tasks.find(t => {
