@@ -45,6 +45,7 @@
   import DragDropList from './DragDropList.svelte';
   import '../utils.js';
   import ListItem from "./ListItem.svelte";
+  import {randomHexColorCode} from "./ColorUtils.svelte";
 
   let taskAddedPendingFocus = false;
   let lastInput;
@@ -89,9 +90,64 @@
 
   afterUpdate(focusNewTask);
 
+  function extractColorGroups(tasks) {
+    const tagToColor = [];
+
+    for (let i = 0; i < tasks.length; i++) {
+      let task = tasks[i];
+      let extractedTag = task.description.match(/(\(\w+\))/gm);
+      if (extractedTag.constructor === Array && extractedTag.length === 1) {
+        let tag = extractedTag[0];
+        let find = tagToColor.find(v => {
+          return v.tag === tag;
+        });
+        if (!find) {
+          let color = randomHexColorCode();
+          tagToColor.push({tag: tag, color: color})
+        }
+      }
+    }
+    return tagToColor;
+  }
+
+  function colourGroupTasks(tasks) {
+    const tagToColor = extractColorGroups(tasks);
+
+    for (let i = 0; i < tasks.length; i++) {
+      let task = tasks[i];
+      if (task.color && task.tag) {
+        continue;
+      }
+      let extractedTag = task.description.match(/(\(\w+\))/gm);
+      if (extractedTag.constructor === Array && extractedTag.length === 1) {
+        let tag = extractedTag[0];
+        task['tag'] = tag;
+        let taskFind = tasks.find(t => {
+          return t.tag === tag ? t.color : undefined;
+        })
+
+        if (taskFind) {
+          task['color'] = taskFind.color;
+          continue;
+        }
+
+        let colorFind = tagToColor.find(v => {
+          return v.tag === tag;
+        });
+        if (colorFind) {
+          task['color'] = colorFind.color;
+        } else {
+          task['color'] = randomHexColorCode();
+        }
+      }
+    }
+    storedTasks.set(tasks);
+  }
+
   onMount(() => {
     storedTasks.useLocalStorage('TaskList');
     tasks = $storedTasks;
+    colourGroupTasks(tasks);
   });
 
 </script>
@@ -110,6 +166,6 @@
                 <ListItem on:removeTask={removeTask} on:saveTask={saveTask} {index} {item}/>
             </DragDropList>
         {/if}
-        <button class="addtask primary" on:click={addTask}>Add task</button>
+        <button class="primary" on:click={addTask}>Add task</button>
     </tasksection>
 </section>
