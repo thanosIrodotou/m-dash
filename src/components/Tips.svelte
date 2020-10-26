@@ -55,4 +55,7 @@
     <li>
         * <span class="description">Drag and drop tasks to reorder your tasks list.</span>
     </li>
+    <li>
+        * <span class="description">Prefix your tasks with (TAG_NAME) to get auto-color tagging.</span>
+    </li>
 </ul>
