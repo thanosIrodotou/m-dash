@@ -1,8 +1,9 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import {createEventDispatcher} from 'svelte';
   import { flip } from "svelte/animate";
   import { quintOut } from "svelte/easing";
   import { crossfade } from "svelte/transition";
+
   // animation
   const [send, receive] = crossfade({
     duration: d => Math.sqrt(d * 200),
@@ -81,9 +82,14 @@
     dispatch("reordered", newList);
   };
 
+  function getStyle(item) {
+    return `border-left: 5px solid ${item['color']};`
+  }
+
   export let list;
   export let key = item => item;
   const getKey = key;
+
 </script>
 
 <style>
@@ -112,6 +118,7 @@
             <li
                     data-index={index}
                     data-id={getKey(item)}
+                    style={getStyle(item)}
                     draggable="true"
                     on:dragstart={onDragstart}
                     on:dragover={onDragover}
