@@ -39,13 +39,9 @@
         border-color: var(--accent-dark);
     }
 
-    button:not(.reset):focus,
-    button:not(.reset):not(:disabled):hover {
+    button:not(.reset,.sounds):focus,
+    button:not(.reset,.sounds):not(:disabled):hover {
         border: dashed 1px;
-    }
-
-    button:not(.reset):not(:disabled):active {
-        background-color: var(--base-dark);
     }
 
     button.reset {
@@ -56,6 +52,24 @@
     }
 
     :global(body.darkmode--activated) button.reset {
+        filter: invert(100%);
+    }
+
+    button.sounds {
+        width: 1.8em;
+        height: 1.8em;
+        border: none;
+    }
+
+    button.sounds.mute {
+        background: url('bell.svg') no-repeat transparent;
+    }
+
+    button.sounds.unmute {
+        background: url('mute_bell.svg') no-repeat transparent;
+    }
+
+    :global(body.darkmode--activated) button.sounds {
         filter: invert(100%);
     }
 
@@ -263,7 +277,7 @@
 <script>
   import {onMount} from 'svelte';
   import {Howl} from 'howler';
-  import {count} from '../store';
+  import {count, sounds} from '../store';
 
   const minutesToSeconds = (minutes) => minutes * 60;
   const secondsToMinutes = (seconds) => Math.floor(seconds / 60);
@@ -376,6 +390,20 @@
     restTime = SHORT_BREAK_S;
   }
 
+  function muteSounds() {
+    if ($sounds === true) {
+      workDoneSound.mute(true);
+      restDoneSound.mute(true);
+      document.getElementById("toggleSounds").classList.remove('mute');
+      document.getElementById("toggleSounds").classList.add('unmute');
+      sounds.set(false);
+    } else {
+      document.getElementById("toggleSounds").classList.remove('unmute');
+      document.getElementById("toggleSounds").classList.add('mute');
+      sounds.set(true);
+    }
+  }
+
   function handleKeyPress(event) {
     const activeElementIsInput = document.activeElement.classList.value.includes('description input');
     const activeElementIsAddTask = document.activeElement.classList.value.includes('addtask');
@@ -393,10 +421,19 @@
   }
 
   onMount(() => {
-    count.useLocalStorage('POMO');
+    sounds.useLocalStorage('pomodoroTimer')
+    count.useLocalStorage('pomodoroTimer');
     if (count) {
       pomodoroTime = $count.timer;
       restTime = $count.rest;
+    }
+    if ($sounds === true) {
+      console.log('toggling on mount');
+      document.getElementById("toggleSounds").classList.remove('unmute');
+      document.getElementById("toggleSounds").classList.add('mute');
+    } else {
+      document.getElementById("toggleSounds").classList.remove('mute');
+      document.getElementById("toggleSounds").classList.add('unmute');
     }
   });
 </script>
@@ -421,6 +458,8 @@
         <button class="paused" on:click={pausePomodoro}
                 disabled={(currentState !== State.inProgress && currentState !== State.resting)}>
             pause
+        </button>
+        <button id="toggleSounds" class="sounds mute unmute slide" on:click={muteSounds}>
         </button>
     </time>
 </section>
