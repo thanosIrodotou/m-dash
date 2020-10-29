@@ -325,7 +325,9 @@
       document.getElementById('pomodoroProgress').value = progress;
       if (pomodoroTime === 0) {
         completePomodoro();
-        workDoneSound.play('start');
+        if ($sounds === true) {
+          workDoneSound.play('start');
+        }
       } else {
         progress -= 1;
         pomodoroTime -= 1;
@@ -344,7 +346,9 @@
       document.getElementById('restProgress').value = progress;
       if (restTime === 0) {
         idle();
-        restDoneSound.play('start');
+        if ($sounds === true) {
+          restDoneSound.play('start');
+        }
       } else {
         progress -= 1;
         restTime -= 1;
@@ -392,8 +396,6 @@
 
   function muteSounds() {
     if ($sounds === true) {
-      workDoneSound.mute(true);
-      restDoneSound.mute(true);
       document.getElementById("toggleSounds").classList.remove('mute');
       document.getElementById("toggleSounds").classList.add('unmute');
       sounds.set(false);
