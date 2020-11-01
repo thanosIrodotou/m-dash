@@ -102,12 +102,51 @@
           return v.tag === tag;
         });
         if (!find) {
-          let color = randomHexColorCode();
-          tagToColor.push({tag: tag, color: color})
+          tagToColor.push({tag: tag, color: randomHexColorCode()})
+        }
+      } else {
+        let find = tagToColor.find(v => {
+          return v.tag === 'no_tag';
+        });
+        if (!find) {
+          tagToColor.push({tag: 'no_tag', color: randomHexColorCode()})
         }
       }
     }
     return tagToColor;
+  }
+
+  function checkIfTagHasChanged(task, tagToColor) {
+    let extractedTag = task.description.match(/^\([A-Z0-9]+\)/gm);
+    if (extractedTag && extractedTag.constructor === Array && extractedTag.length === 1) {
+      let tag = extractedTag[0]
+      if (tag !== task.tag) {
+        task.tag = tag;
+        let taskFind = tasks.find(v => {
+          return v.tag === tag;
+        });
+        if (taskFind) {
+          task['color'] = taskFind.color;
+        } else {
+          task['color'] = randomHexColorCode();
+        }
+      }
+    } else {
+      tagAsNoTag(task, tagToColor);
+    }
+  }
+
+  function tagAsNoTag(task, tagToColor) {
+    // Find a task tagged as no_tag
+    // If found set the new no tag task to the same color and tag it as no_tag
+    let noTagTask = tasks.find(t => t.tag === 'no_tag');
+    if (noTagTask) {
+      task['color'] = noTagTask.color;
+    } else {
+      // Else pick a random color from the colorGroup for no_tag
+      task['color'] = tagToColor.find(v => v.tag === 'no_tag').color;
+    }
+    task['tag'] = 'no_tag';
   }
 
   function colourGroupTasks(tasks) {
@@ -116,6 +155,7 @@
     for (let i = 0; i < tasks.length; i++) {
       let task = tasks[i];
       if (task.color && task.tag) {
+        checkIfTagHasChanged(task, tagToColor);
         continue;
       }
       let extractedTag = task.description.match(/^\([A-Z0-9]+\)/gm);
@@ -139,6 +179,8 @@
         } else {
           task['color'] = randomHexColorCode();
         }
+      } else {
+        tagAsNoTag(task, tagToColor);
       }
     }
     storedTasks.set(tasks);
