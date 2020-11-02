@@ -456,6 +456,9 @@
     if (shouldNotHanleKeyPress) {
       return;
     }
+    if (keyIsSpace) {
+      event.preventDefault();
+    }
     if (keyIsSpace && (currentState === State.inProgress)) {
       pausePomodoro();
     } else if (keyIsSpace && (currentState === State.paused || currentState === State.idle)) {
