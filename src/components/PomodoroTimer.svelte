@@ -78,6 +78,46 @@
         border-color: var(--accent-blue-light);
     }
 
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+        font-size: 0.3em;
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: -60%;
+        left: 0;
+        margin-left: -180%;
+    }
+
+    :global(body.darkmode--activated) .tooltip .tooltiptext {
+        filter: invert(100%);
+    }
+
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
     .slide:not(:disabled):hover, .slide:not(:disabled):focus {
         transform: scale(1.1);
         cursor: pointer
@@ -92,7 +132,6 @@
     }
 
     input, button, select, textarea {
-        font-family: inherit;
         font-size: 0.5em;
         font-weight: inherit;
         padding: 0.3em;
@@ -326,7 +365,8 @@
       if (pomodoroTime === 0) {
         completePomodoro();
         if ($sounds === true) {
-          workDoneSound.play('start');
+          // workDoneSound.play('start');
+          notifyMe("Work time's up, take a break ☕️");
         }
       } else {
         progress -= 1;
@@ -347,7 +387,8 @@
       if (restTime === 0) {
         idle();
         if ($sounds === true) {
-          restDoneSound.play('start');
+          // restDoneSound.play('start');
+          notifyMe("Break's up, quick, back to work 💪");
         }
       } else {
         progress -= 1;
@@ -422,6 +463,35 @@
     }
   }
 
+  function notifyMe(message) {
+    const options = {
+      body: message,
+      icon: 'favicon_pulls.png',
+      silent: true
+    }
+
+    // Let's check if the browser supports notifications
+    if (!('Notification' in window)) {
+      alert('This browser does not support desktop notification');
+    }
+
+    // Let's check whether notification permissions have already been granted
+    else if (Notification.permission === 'granted') {
+      // If it's okay let's create a notification
+      var notification = new Notification('Pomodoro', options);
+    }
+
+    // Otherwise, we need to ask the user for permission
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === 'granted') {
+          var notification = new Notification('Pomodoro', options);
+        }
+      });
+    }
+  }
+
   onMount(() => {
     sounds.useLocalStorage('pomodoroTimer')
     count.useLocalStorage('pomodoroTimer');
@@ -430,7 +500,6 @@
       restTime = $count.rest;
     }
     if ($sounds === true) {
-      console.log('toggling on mount');
       document.getElementById("toggleSounds").classList.remove('unmute');
       document.getElementById("toggleSounds").classList.add('mute');
     } else {
@@ -445,9 +514,12 @@
 
 <section>
     <time>
-        <button class="reset slide" on:click={cancelPomodoro}
-                disabled={(currentState === State.inProgress && currentState === State.resting) && currentState !== State.paused}>
-        </button>
+        <div class="tooltip">
+            <button class="reset slide" disabled={(currentState === State.inProgress && currentState === State.resting) && currentState !== State.paused}
+                    on:click={cancelPomodoro}>
+            </button>
+            <span class="tooltiptext" style="font-size: 0.3em; top: -30%;">Reset timers</span>
+        </div>
         <button id="timerButton" class="primary timer" on:click={startPomodoro}
                 disabled={currentState === State.inProgress || currentState === State.resting}>
             {formatTime(pomodoroTime)}
@@ -461,8 +533,10 @@
                 disabled={(currentState !== State.inProgress && currentState !== State.resting)}>
             pause
         </button>
-        <button id="toggleSounds" class="sounds mute unmute slide" on:click={muteSounds}>
-        </button>
+        <div class="tooltip">
+            <button class="sounds mute unmute slide" id="toggleSounds" on:click={muteSounds}></button>
+            <span class="tooltiptext" style="top: -30%;">Toggle sounds & notifications</span>
+        </div>
     </time>
 </section>
 {#if (pomodoroTime <= 1500 && currentState !== State.resting) && previousState !== State.resting}
