@@ -12,6 +12,8 @@
         padding: 2em;
         margin: 0 auto;
         box-sizing: border-box;
+        min-width: 200px;
+        width: 60%;
     }
 
     :global(body.darkmode--activated) main {
