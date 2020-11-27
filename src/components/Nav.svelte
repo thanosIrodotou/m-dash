@@ -16,7 +16,8 @@
 	}
 
 
-	new Darkmode(options).showWidget();
+	let darkmode = new Darkmode(options);
+	darkmode.showWidget();
 
 	export let segment;
 </script>
@@ -73,8 +74,22 @@
 		padding: 1em 0.5em;
 		display: block;
 	}
+
+    .carbonbadge {
+        position: fixed;
+        right: 0;
+    }
+
 </style>
 
+<svelte:head>
+	{#if darkmode.isActivated()}
+		<div id="wcb" class="carbonbadge wcb-d"></div>
+	{:else}
+		<div id="wcb" class="carbonbadge"></div>
+	{/if}
+	<script src="https://unpkg.com/website-carbon-badges@1.1.1/b.min.js" defer></script>
+</svelte:head>
 <nav>
 	<ul>
 		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
