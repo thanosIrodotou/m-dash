@@ -1,27 +1,3 @@
-<script>
-	import Darkmode from 'darkmode-js';
-
-	const options = {
-		bottom: '64px', // default: '32px'
-		right: 'unset', // default: '32px'
-		left: '32px', // default: 'unset'
-		time: '0s', // default: '0.3s'
-		mixColor: '#dddddd', // default: '#fff'
-		backgroundColor: '#ffffff',  // default: '#fff'
-		buttonColorDark: 'var(--dark-mode)',  // default: '#100f2c'
-		buttonColorLight: '#fff', // default: '#fff'
-		saveInCookies: true, // default: true,
-		label: '🌓', // default: ''
-		autoMatchOsTheme: true // default: true
-	}
-
-
-	let darkmode = new Darkmode(options);
-	darkmode.showWidget();
-
-	export let segment;
-</script>
-
 <style>
 	:global(body.darkmode--activated) {
 		color: #fff;
@@ -31,9 +7,18 @@
 		border-bottom: 1px solid rgba(0,0,0,0.1);
 		font-weight: 300;
 		padding: 0 1em;
+		background-color: white;
+	}
+
+	.sticky {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 1;
 	}
 
 	:global(body.darkmode--activated) nav {
+		background-color: var(--dark-mode);
 		border-bottom: 1px solid rgba(0,0,0,0.5);
 	}
 
@@ -75,12 +60,35 @@
 		display: block;
 	}
 
-    .carbonbadge {
-        position: fixed;
-        right: 0;
-    }
-
+	.carbonbadge {
+		position: fixed;
+		right: 0;
+		z-index: 2;
+	}
 </style>
+<script>
+	import Darkmode from 'darkmode-js';
+
+	const options = {
+		bottom: '64px', // default: '32px'
+		right: 'unset', // default: '32px'
+		left: '32px', // default: 'unset'
+		time: '0s', // default: '0.3s'
+		mixColor: '#dddddd', // default: '#fff'
+		backgroundColor: '#ffffff',  // default: '#fff'
+		buttonColorDark: 'var(--dark-mode)',  // default: '#100f2c'
+		buttonColorLight: '#fff', // default: '#fff'
+		saveInCookies: true, // default: true,
+		label: '🌓', // default: ''
+		autoMatchOsTheme: true // default: true
+	}
+
+	let darkmode = new Darkmode(options);
+	darkmode.showWidget();
+
+	export let segment;
+
+</script>
 
 <svelte:head>
 	{#if darkmode.isActivated()}
@@ -90,7 +98,7 @@
 	{/if}
 	<script src="https://unpkg.com/website-carbon-badges@1.1.1/b.min.js" defer></script>
 </svelte:head>
-<nav>
+<nav class="sticky">
 	<ul>
 		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
 		<!-- <li><a aria-current="{segment === 'crypto' ? 'page' : undefined}" href="crypto">crypto</a></li>

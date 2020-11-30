@@ -1,7 +1,6 @@
 <head>
     <link rel="icon" type="image/png" href="favicon_pulls.png">
 </head>
-
 <style>
     button {
         background-color: var(--base);
