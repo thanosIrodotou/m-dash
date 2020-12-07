@@ -249,7 +249,7 @@
 
     if (window.confirm('Are you sure?\nThis will remove all your tasks, it can not be undone.\n' +
       'Please export your tasks before removing!')) {
-      storedTasks.set({});
+      storedTasks.set([]);
     }
   }
 
