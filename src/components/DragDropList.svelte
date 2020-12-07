@@ -1,8 +1,8 @@
 <script>
   import {createEventDispatcher} from 'svelte';
-  import { flip } from "svelte/animate";
-  import { quintOut } from "svelte/easing";
-  import { crossfade } from "svelte/transition";
+  import {flip} from "svelte/animate";
+  import {quintOut} from "svelte/easing";
+  import {crossfade} from "svelte/transition";
 
   // animation
   const [send, receive] = crossfade({
@@ -64,13 +64,13 @@
     overId = null;
     draggingId = null;
     const toIdx = parent.index;
-    reorder({ fromIdx, toIdx });
+    reorder({fromIdx, toIdx});
   };
 
   // dispatch "reordered"
   const dispatch = createEventDispatcher();
 
-  const reorder = ({ fromIdx, toIdx }) => {
+  const reorder = ({fromIdx, toIdx}) => {
     if (fromIdx === toIdx) {
       return;
     }
@@ -98,14 +98,17 @@
         padding: 0;
         line-height: 1.5em;
     }
+
     li {
         border: 2px dotted transparent;
         transition: border 0.1s linear;
     }
+
     /* the element that is being dragged */
     .dragging {
         opacity: 0.4;
     }
+
     /* the element that the dragging cursor is over */
     .over {
         border-color: rgba(48, 12, 200, 0.2);
