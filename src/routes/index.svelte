@@ -43,6 +43,7 @@
   import TaskList from '../components/TaskList.svelte';
   import Modal from 'svelte-simple-modal';
   import Content from '../components/Content.svelte';
+  import Cards from '../components/Cards.svelte';
 
   let key;
   let keyCode;
@@ -72,6 +73,11 @@
 {/if}
 
 <section>
-    <PomodoroTimer/>
-    <TaskList/>
+    <div class="hd">
+        <Cards/>
+    </div>
+    <div class="fd">
+        <PomodoroTimer/>
+        <TaskList/>
+    </div>
 </section>
