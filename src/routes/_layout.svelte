@@ -7,13 +7,10 @@
 <style>
     main {
         position: relative;
-        max-width: 96em;
         background-color: white;
-        padding: 5em;
-        margin: 0 auto;
-        box-sizing: border-box;
-        min-width: 200px;
-        width: 60%;
+        padding-top: 4em;
+        padding-left: 1em;
+        margin: 0;
     }
 
     :global(body.darkmode--activated) main {

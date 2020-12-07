@@ -32,9 +32,10 @@
     }
 
     section {
+        box-sizing: border-box;
         display: grid;
+        grid: auto-flow dense 100px / 1fr 6fr 1fr;
     }
-
 </style>
 
 <script>

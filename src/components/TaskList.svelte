@@ -44,13 +44,13 @@
   import {storedTasks} from '../store';
   import DragDropList from './DragDropList.svelte';
   import '../utils.js';
-  import ListItem from "./ListItem.svelte";
-  import {randomHexColorCode} from "./ColorUtils.svelte";
+  import ListItem from './ListItem.svelte';
+  import {randomHexColorCode} from './ColorUtils.svelte';
 
   let taskAddedPendingFocus = false;
   let lastInput;
   let tasks = [];
-  $: allExpectedPomodoros = tasks.reduce((acc, t) => acc + t.expectedPomodoros, 0);
+  // $: allExpectedPomodoros = tasks.reduce((acc, t) => acc + t.expectedPomodoros, 0);
 
   function addTask() {
     tasks = tasks.concat(tasks.length === 0 ? new Task(1) : new Task(tasks.length + 1));
