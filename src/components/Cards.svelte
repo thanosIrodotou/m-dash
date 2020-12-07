@@ -204,15 +204,6 @@
   import {onMount} from 'svelte';
   import {storedTasks} from '../store';
 
-  function saveTask(event) {
-    let task = event.detail.task;
-    if (!task.description) {
-      alert('Please describe your task')
-    } else {
-      storedTasks.set(tasks);
-    }
-  }
-
   function onDropdownClick(event) {
     event.preventDefault();
     event.currentTarget.parentElement.classList.toggle('open')
@@ -222,7 +213,7 @@
     event.preventDefault();
     event.currentTarget.closest('.dropdown').classList.remove('open');
 
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tasks));
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify($storedTasks));
     const dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute('href', dataStr);
     dlAnchorElem.setAttribute('download', 'tasks.json');
