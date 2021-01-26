@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
 <style>
 	:global(body.darkmode--activated) {
 		color: #fff;
@@ -64,30 +67,58 @@
 		position: fixed;
 		right: 0;
 		z-index: 2;
-	}
+    }
+
+    .dmToggle {
+        position: fixed;
+        left: 50%;
+    }
+    
+    @media (max-width: 768px) {
+        .dmToggle {
+            left: 25%;
+        }
+    }
 </style>
 <script>
-	import Darkmode from 'darkmode-js';
+    import Darkmode from 'darkmode-js';
+    import {
+        onMount
+    } from 'svelte';
 
 	const options = {
-		bottom: '64px', // default: '32px'
-		right: 'unset', // default: '32px'
-		left: '32px', // default: 'unset'
 		time: '0s', // default: '0.3s'
 		mixColor: '#dddddd', // default: '#fff'
-		backgroundColor: '#ffffff',  // default: '#fff'
-		buttonColorDark: 'var(--dark-mode)',  // default: '#100f2c'
-		buttonColorLight: '#fff', // default: '#fff'
 		saveInCookies: true, // default: true,
-		label: '🌓', // default: ''
 		autoMatchOsTheme: true // default: true
 	}
 
-	let darkmode = new Darkmode(options);
-	darkmode.showWidget();
+    let darkmode = new Darkmode(options);
+    
+    function toggleDarkMode() {
+        if (darkmode.isActivated()) {
+            document.getElementById('darkModeIcon').classList.add('fa-moon');
+            document.getElementById('darkModeIcon').classList.remove('fa-sun');
+        } else {
+            document.getElementById('darkModeIcon').classList.remove('fa-moon');
+            document.getElementById('darkModeIcon').classList.add('fa-sun');
+        }
+        console.log('mode', darkmode.isActivated(), 'toggling');
+        darkmode.toggle();
+    }
+    
 
-	export let segment;
+    onMount(() => {
+        if (darkmode.isActivated()) {
+            document.getElementById('darkModeIcon').classList.add('fa-sun');
+            document.getElementById('darkModeIcon').classList.remove('fa-moon');
+        } else {
+            document.getElementById('darkModeIcon').classList.remove('fa-sun');
+            document.getElementById('darkModeIcon').classList.add('fa-moon');
+        }
+    });
 
+    export let segment;
 </script>
 
 <svelte:head>
@@ -100,7 +131,7 @@
 </svelte:head>
 <nav class="sticky">
 	<ul>
-		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
+        <li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
 		<!-- <li><a aria-current="{segment === 'crypto' ? 'page' : undefined}" href="crypto">crypto</a></li>
 		<li><a aria-current="{segment === 'pulls' ? 'page' : undefined}" href="pulls">pulls</a></li>
 		<li><a aria-current="{segment === 'devNews' ? 'page' : undefined}" href="devNews">devNews</a></li>
@@ -109,5 +140,9 @@
 		 for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen
 		<li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>-->
-	</ul>
+        <a id="darkModeToggle" class="dmToggle" href="#" on:click={toggleDarkMode}>
+            <i id="darkModeIcon" class="fas fa-moon"></i>
+        </a>
+    </ul>
+    
 </nav>
