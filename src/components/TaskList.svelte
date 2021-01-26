@@ -2,6 +2,9 @@
     tasksection {
         font-size: 3em;
         font-weight: 300;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     section {
@@ -36,6 +39,7 @@
         background-color: var(--accent-dark);
         border-color: var(--accent-dark);
     }
+
 </style>
 
 <script>
