@@ -40,6 +40,12 @@
         border-color: var(--accent-dark);
     }
 
+    @media (max-width: 768px) {
+        button {
+            font-size: 0.3em;
+        }
+    }
+
 </style>
 
 <script>

@@ -72,6 +72,23 @@
         border-radius: 10px;
     }
 
+    @media (max-width: 768px) {
+        .index {
+            cursor: pointer;
+        }
+
+        .input {
+            padding: 0 auto;
+            word-break: break-all;
+        }
+    }
+
+    @media (max-width: 736px) {
+        .input {
+            height: auto;
+        }
+    }
+
 </style>
 <script>
     import {
@@ -107,7 +124,7 @@
 </script>
 
 <section>
-    <div>
+    <div class="task" onclick="">
         <span class="index">{index + 1}</span>
         <span class="removeTask" on:click={()=> removeTask(item)}>X</span>
         <input class="description input" type="text" bind:value={item.description} on:focusout={()=> saveTask(item)}>

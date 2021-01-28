@@ -41,7 +41,7 @@
     </li>
     <hr/>
     <li>
-        <span class="shortcut">?</span>
+        <span class="shortcut">shift+?</span>
         <span class="description">keyboard shortcuts</span>
     </li>
     <li>

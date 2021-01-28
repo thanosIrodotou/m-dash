@@ -151,17 +151,6 @@
         text-align: center;
     }
     
-    .shortcuts {
-        position: fixed;
-        bottom: 24px;
-        right: unset;
-        left: 32px;
-    }
-    
-     :global(body.darkmode--activated) .shortcuts {
-        color: white !important;
-    }
-
     /* Progress Bars */
     .inProgress progress {
         -webkit-appearance: none;
@@ -259,6 +248,7 @@
         .inRest {
             display: none;
         }
+        
         button {
             font-size: 0.3em;
             font-weight: inherit;
@@ -523,6 +513,3 @@
         <progress id="restProgress" class="fade-in" max="100" value={(restTime / 300) * 100}></progress>
     </div>
 {/if}
-    <div class="shortcuts">
-        shift+?
-    </div>

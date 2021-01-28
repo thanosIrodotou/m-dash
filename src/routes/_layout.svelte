@@ -53,6 +53,14 @@
         /*transition: top 0.2s, left 0.2s;*/
         transition: transform 0.2s;
     }
+
+    @media (max-width: 768px) {
+        main {
+            padding-top: 3em;
+            padding-left: 0em;
+        }
+    }
+
 </style>
 
 <Nav {segment}/>

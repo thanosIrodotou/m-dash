@@ -157,9 +157,14 @@
     }
 
     @media (max-width: 768px) {
+        ul {
+            line-height: 0.5em;
+        }
+
         li {
             font-size: 0.6em;
             max-width: 768px;
+            overflow: scroll;
         }
     }
 </style>

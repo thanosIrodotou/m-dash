@@ -72,17 +72,29 @@
     .dmToggle {
         position: fixed;
         left: 50%;
-    }
+	}
+	
+	.shortcuts {
+		position: fixed;
+		left: calc(100% - 300px);
+	}
     
     @media (max-width: 768px) {
-        .dmToggle {
-            left: 25%;
-        }
+
+		.carbonbadge {
+			display: none;
+		}
+
+		.shortcuts {
+			left: calc(100% - 50px);
+		}
     }
 </style>
 <script>
     import Darkmode from 'darkmode-js';
-    import {
+	import Modal from 'svelte-simple-modal';
+	import Content from '../components/Content.svelte';
+	import {
         onMount
     } from 'svelte';
 
@@ -93,7 +105,8 @@
 		autoMatchOsTheme: true // default: true
 	}
 
-    let darkmode = new Darkmode(options);
+	let darkmode = new Darkmode(options);
+	let showModal = false;
     
     function toggleDarkMode() {
         if (darkmode.isActivated()) {
@@ -106,7 +119,10 @@
         console.log('mode', darkmode.isActivated(), 'toggling');
         darkmode.toggle();
     }
-    
+	
+	function toggleModal() {
+		showModal = true;
+	}
 
     onMount(() => {
         if (darkmode.isActivated()) {
@@ -129,6 +145,12 @@
 	{/if}
 	<script src="https://unpkg.com/website-carbon-badges@1.1.1/b.min.js" defer></script>
 </svelte:head>
+
+{#if showModal}
+<Modal closeOnEsc="true" onClose={showModal=false}>
+    <Content type="tips" message="Keyboard Shortcuts" />
+</Modal>
+{/if}
 <nav class="sticky">
 	<ul>
         <li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">pomodoro</a></li>
@@ -140,9 +162,16 @@
 		 for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen
 		<li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>-->
-        <a id="darkModeToggle" class="dmToggle" href="#" on:click={toggleDarkMode}>
-            <i id="darkModeIcon" class="fas fa-moon"></i>
-        </a>
+		<li>
+			<a id="darkModeToggle" class="dmToggle" href="#" on:click={toggleDarkMode}>
+				<i id="darkModeIcon" class="fas fa-moon"></i>
+			</a>
+		</li>
+		<li>
+			<a class="shortcuts" href="#" on:click={toggleModal}>
+				<i class="fas fa-info-circle"></i>
+			</a>
+		</li>
     </ul>
     
 </nav>
