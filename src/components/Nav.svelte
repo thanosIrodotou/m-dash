@@ -27,7 +27,7 @@
 
 	ul {
 		margin: 0;
-		padding: 0;
+		padding: 0.3em;
 	}
 
 	/* clearfix */
@@ -87,6 +87,10 @@
 
 		.shortcuts {
 			left: calc(100% - 50px);
+		}
+
+		ul {
+			padding: 0;
 		}
     }
 </style>

@@ -49,8 +49,8 @@
         height: 1.8em;
         border: none;
     }
-    
-     :global(body.darkmode--activated) button.reset {
+
+    :global(body.darkmode--activated) button.reset {
         filter: invert(100%);
     }
     
@@ -82,7 +82,7 @@
         display: inline-block;
     }
     
-    .tooltip .tooltiptext {
+    .tooltiptext {
         font-size: 0.3em;
         visibility: hidden;
         width: 200px;
@@ -95,22 +95,11 @@
         z-index: 1;
         top: -60%;
         left: 0;
-        margin-left: -180%;
+        margin-left: -200%;
     }
     
-     :global(body.darkmode--activated) .tooltip .tooltiptext {
+    :global(body.darkmode--activated) .tooltip .tooltiptext {
         filter: invert(100%);
-    }
-    
-    .tooltip .tooltiptext::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: black transparent transparent transparent;
     }
     
     .tooltip:hover .tooltiptext {
@@ -246,6 +235,10 @@
     @media (max-width: 768px) {
         .inProgress,
         .inRest {
+            display: none;
+        }
+
+        .tooltiptext {
             display: none;
         }
         
